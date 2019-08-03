@@ -1,0 +1,11 @@
+Objective - The project is part of Research and Development on building AI Deep Learning  model's in the field of human creativity. 
+The model would generate poems around Life given initial opening stanza provided by user 
+Below is the overall architectural overview of the End to End system 
+
+Model Architectural - Tensor Flow - Deep Learning 
+Model Framework - Recurrent Neural Network consisting of Encoder and Decoder 
+
+The Encoder is built on LSTM cells . On top of the Encoder there is a attention mechanism implemented . The output 
+of the attention mechanism is a attention vector.
+
+Training Phase - The training is done on a dataset consisting of poems on life 
