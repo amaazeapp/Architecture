@@ -2,10 +2,58 @@ Objective - The project is part of Research and Development on building AI Deep 
 The model would generate poems around Life given initial opening stanza provided by user 
 Below is the overall architectural overview of the End to End system 
 
+1. Architecture of the Machine Learning Model 
 Model Architectural - Tensor Flow - Deep Learning 
 Model Framework - Recurrent Neural Network consisting of Encoder and Decoder 
 
-The Encoder is built on LSTM cells . On top of the Encoder there is a attention mechanism implemented . The output 
-of the attention mechanism is a attention vector.
+The Encoder Layer is built on LSTM cells . 
+There is a dropout applied on top of the LSTM cells .
+The output of the attention mechanism is a attention vector.
 
-Training Phase - The training is done on a dataset consisting of poems on life 
+The Decoder Layer - Attention Mechanism - Bahdanau is implemented 
+Built upon Basic LSTM cells .There is an attention wrapper on top of the decoder cell.
+
+It is further split into 2 
+- Decoder Infer Layer 
+- Decoder Train Layer 
+
+The decoder Train Layer is used during the Training phase and the Decoder Infer Layer for prediction phase 
+
+Training phase 
+The model is trained using Teacher Forcing Algorithm 
+
+Initial setup 
+The data set consists of ~250 poems on Life .Total number of lines ~20000
+There is initial data clean up done 
+Then the data is split on validation data set and training data set .The batches prepared are of length -20 
+GloveEmbeddings is used for Word to Vector Mapping 
+
+Hyper Parameters used 
+Number of Epochs - 349 
+Learning rate = 0.05
+Batch Size = 20 
+Embedded Dimension = 50 
+
+How it all Works !!
+TensorFlow is used for building the model . For loss optimization Adam Optimizer algo is used 
+The input data for training is a Tensor with Batch_Size * (Max_Sequence_Length in a batch ) * Embedded Dimension 
+The training is done on epochs of size 349 
+The output tensor which was fed was the next line of each poem . E.g in a poem there are 2 lines - 
+LINE1 -> Life is beautiful 
+LINE2 -> Life it to the fullest 
+
+Here Line1 - will be fed as input and Line2 will be fed as output
+
+Finally the training session is saved using tr.train.Save().
+
+2. Deploying to Cloud .
+AWS is used for the model deployment 
+
+Here is a overall end to end connection
+API Gateway -> LAMBDA -> AWS Sagemaker 
+
+3. Frontend for the user 
+The frontend is built on plain HTML and Javascript 
+
+
+
