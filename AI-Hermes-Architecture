@@ -1,1 +1,28 @@
+Application Hermes is outcome of utilizing deep learning models and sentence embedding to determine 
+the correlation between sentences .
 
+The Application has the below components 
+1. AI model - The heart of the model consists of utilizing the Universal Sentence Encoder from Google . 
+Basically a wrapper TensorFlow Model  is written on top of it to invoke it with batch of data .
+
+Across each of the dimension - Planning , Conflict Resolution , Leadership , Communication , Decision - we have prepared a set list of 
+sentences in each dimensions .
+Along with this we have prepared a list of questionaire which the user will provide there responses .
+
+As part of the user respones provided - they are split into multiple sentences and each of the sentence is batched into reference sentence 
+from each of the dimension . All these batches are fed into the Universal Sentence Encoder to derive the individual embeddings .
+With each batch the numpy inner correlation is identified and based on the score a score per batch is evaluated .
+
+In the end all the batch scores are evaluated to derive the final scores across the dimensions .
+
+2. Infrastructure Setup - AWS has been the prime cloud partner for this development . Withing AWS below services has been used 
+a)  S3 - For hosting the static website 
+b) API Gateway - API endpoint 
+c) SQS - For storing the user responses and handle it asynchronously 
+d) LAMBDA - Main Logic 
+e) SageMaker - For loading the TensorFlow Model 
+f) SES - For sending the emails with the results .
+
+3. The frontend is built purely on HTML and javascript/CSS.
+
+Share your comments incase of any queries.
