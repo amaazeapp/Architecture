@@ -14,6 +14,9 @@ from each of the dimension . All these batches are fed into the Universal Senten
 With each batch the numpy inner correlation is identified and based on the score a score per batch is evaluated .
 
 In the end all the batch scores are evaluated to derive the final scores across the dimensions .
+The logic for the final score is derived based on weighted metric . Each batch gets a score . The score is then put 3 buckets 
+Grade A , Grade B , Grade C . To derive the final score for the batch = (Number of score in Grade A + 0.75* # Grade B + 0.5 *#Grade C)/5.
+The final score across a dimension is the average aross all the batches in that dimension.
 
 2. Infrastructure Setup - AWS is cloud partner for this development . Withing AWS below services has been used 
 a)  S3 - For hosting the static website 
