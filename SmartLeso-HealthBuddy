@@ -1,0 +1,35 @@
+Architectural Overview of Smart Leso Bot 
+
+There are 3 main components of this product 
+1. Bot Framework 
+2. Backend Cloud Serverless service 
+3. Database NoSql 
+
+Let me give a brief on how the 3 components are integrated and then will deep dive on each component usage 
+
+1. Bot Framework - Google DialogFlow is the backbone for the bot . Within DialogFlow these are some of the features used to setup the Bot 
+Creating INTENTs , Associating Intents with Contexts , Creating Entities ,Enabling WebHooks for Intents to communicate with backend service ,
+Enabling integration with the 3rd party messenger services - Telegram , Facebook Messanger .
+The logic is to capture key data points called symptoms as the user chats with Leso . These data points are basically grouped under one of the several Intents
+available . Within each Intent there are parameters defined as Mandatory which are required to be fullfullied . Once an Intent is fullfilled it triggers the call to the 
+Backend Service .
+
+2. Backend Cloud Service .
+In the backend - AWS Lambda with Python is used . Below is the Logic Highlight in Backend 
+a) Capture and Store - Session Data - The event provided from Front End is captured and required data is extracted from event and stored in Dynamo DB tables  
+b) Updates Probability score in Session Data - For each of the Health Issue that the system is equiped to predict - it does a probability score calculation based on the 
+extracted data from the event . This is updated in the Session Data 
+c) Analyse and make intelligent predictions - The system based checks and filter based on certain filtering mechanism to derive the top 2 probable disease .
+There are certain threshold like the System Confidence Score which is currently set to 70% . Only if the symptoms match is more than or equal to it then only the disease 
+will be considered as predicted 
+d) Based on the context and intents shared there are certain decision taken like whether to continue or stop , the response message to be shared .
+e) Post the disease prediction , the remedies are retrieved from Reference DB and shared with the user 
+f) Finally the summarized conversation is shared over email . SES is used for email .
+
+3. Database - AWS DynamoDB. 
+AWS Dynamo DB has been used as the preferred NoSql Database . There is one Session Data Table which holds the ongoing Session . Apart from this there are multiple reference 
+database.
+
+4. Archival Mechanism - The session Data archival is triggered every 20 mins .
+
+
